@@ -1,0 +1,3 @@
+#包含密钥可能出问题，推送时忽略掉
+provider/src/main/java/com/example/provider/tool/AliOssTool.java
+provider/src/main/java/com/example/provider/tool/SmsTool.java

@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+#包含密钥可能出问题，推送时忽略掉
+provider/src/main/java/com/example/provider/tool/AliOssTool.java
+provider/src/main/java/com/example/provider/tool/SmsTool.java
