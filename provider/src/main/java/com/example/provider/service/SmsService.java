@@ -36,11 +36,38 @@ public class SmsService {
     }
 
     public int update(Sms sms) {
+        //先查一下有没有这条短信记录
+        Sms existingSms = smsMapper.getById(sms.getId());
+        if (existingSms == null) {
+            throw new RuntimeException("此短信记录不存在~");
+        }
+
+        //再查一下短信版本号是否对的上
+        if (existingSms.getVersion() != sms.getVersion()) {
+            throw new RuntimeException("短信版本对不上，已经被改过了");
+        }
+
+        //对的上就改，同时更新一下此条短信的版本号
+        sms.setVersion(existingSms.getVersion() + 1);
+        int time = (int) (System.currentTimeMillis() / 1000);
+        sms.setUpdateTime(time);
         return smsMapper.update(sms);
     }
 
-    public int delete(BigInteger id) {
+    public int delete(BigInteger id, Integer version) {
+        //先查一下有没有这条短信记录
+        Sms existingSms = smsMapper.getById(id);
+        if (existingSms == null) {
+            throw new RuntimeException("此短信记录不存在~");
+        }
+
+        //再查一下短信版本号是否对的上
+        if (existingSms.getVersion() != version) {
+            throw new RuntimeException("短信版本对不上，已被删");
+        }
+
+        //对的上就删，同时更新一下此条短信的版本号
         int time = (int) (System.currentTimeMillis() / 1000);
-        return smsMapper.delete(time, id);
+        return smsMapper.delete(time, id, version);
     }
 }

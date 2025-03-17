@@ -24,4 +24,5 @@ public class Sms {
     private Integer createTime;
     private Integer updateTime;
     private Integer isDeleted;
+    private Integer version;    //版本号  乐观锁
 }

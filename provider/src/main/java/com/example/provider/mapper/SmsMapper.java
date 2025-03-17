@@ -30,7 +30,7 @@ public interface SmsMapper {
 
     int update(@Param("sms") Sms sms);
 
-    @Delete("update sms set is_deleted = 1,update_time = #{updateTime} where id = #{id}")
-    int delete(@Param("updateTime") Integer updateTime, @Param("id") BigInteger id);
+    @Delete("update sms set is_deleted = 1,update_time = #{updateTime},version = #{version} where id = #{id}")
+    int delete(@Param("updateTime") Integer updateTime, @Param("id") BigInteger id, @Param("version") Integer version);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -39,5 +40,12 @@ public class SmsController {
 
         int result = smsService.insert(sms);
         return result == 1 ? new Response("1001") : new Response("1002");
+    }
+
+    @RequestMapping("/sms/update")
+    public Response updateMessage(BigInteger id, String content, Integer version) {
+        Sms sms = new Sms().setId(id).setContent(content).setVersion(version);
+        int update = smsService.update(sms);
+        return update == 1 ? new Response("1001") : new Response("1002");
     }
 }
