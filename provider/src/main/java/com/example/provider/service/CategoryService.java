@@ -1,9 +1,15 @@
 package com.example.provider.service;
 
+import com.example.common.constant.RabbitMQConstant;
 import com.example.common.entity.Category;
 import com.example.common.entity.Game;
 import com.example.provider.mapper.CategoryMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -19,7 +25,11 @@ import java.util.List;
  * @since 2024-08-08
  */
 @Service
+@Slf4j
 public class CategoryService {
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Resource
     private CategoryMapper categoryMapper;
@@ -69,6 +79,18 @@ public class CategoryService {
 
     public int delete(BigInteger id) {
         int time = (int) (System.currentTimeMillis() / 1000);
+
+        //将删除游戏的消息发送给MQ 指定交换机和路由键 传入类别id
+        log.info("在CategoryService中给MQ发了一条消息");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            //MQ消息传递过程有序列化问题，暂且这样做
+            String message = mapper.writeValueAsString(id);
+            rabbitTemplate.convertAndSend(RabbitMQConstant.DirectExchange, "game", message);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return categoryMapper.delete(time, id);
     }
 

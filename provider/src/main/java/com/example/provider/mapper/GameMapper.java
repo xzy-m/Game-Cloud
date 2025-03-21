@@ -44,4 +44,7 @@ public interface GameMapper {
 
     @Select("select count(*) from game")
     int countGames();
+
+    @Delete("delete from game where category_id = #{id}")
+    int deleteByCategoryId(BigInteger id);
 }
