@@ -50,4 +50,7 @@ public interface GameFeign {
 
     @RequestMapping("/game/countGames")
     int countGames();
+
+    @RequestMapping("/game/deleteByCategoryId")
+    int deleteByCategoryId(@RequestParam("id") BigInteger id);
 }

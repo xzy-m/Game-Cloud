@@ -1,7 +1,7 @@
-package com.example.provider.listener;
+package com.example.app.listener;
 
+import com.example.app.feign.GameFeign;
 import com.example.common.constant.RabbitMQConstant;
-import com.example.provider.mapper.GameMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.math.BigInteger;
 public class ConsumeListener {
 
     @Autowired
-    private GameMapper gameMapper;
+    private GameFeign gameFeign;
 
     //在消费者这指定队列
     @RabbitHandler
@@ -32,7 +32,7 @@ public class ConsumeListener {
         try {
             id = new ObjectMapper().readValue(message, BigInteger.class);
             log.info("MQ接受了消息并执行了后续");
-            gameMapper.deleteByCategoryId(id);
+            gameFeign.deleteByCategoryId(id);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

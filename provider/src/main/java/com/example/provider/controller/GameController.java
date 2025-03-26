@@ -72,4 +72,9 @@ public class GameController {
     public int countGames() {
         return gameService.countGames();
     }
+
+    @RequestMapping("/game/deleteByCategoryId")
+    int deleteByCategoryId(@RequestParam("id") BigInteger id) {
+        return gameService.deleteByCategoryId(id);
+    }
 }

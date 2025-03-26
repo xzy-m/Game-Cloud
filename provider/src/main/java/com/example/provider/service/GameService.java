@@ -165,4 +165,8 @@ public class GameService {
     public int countGames() {
         return gameMapper.countGames();
     }
+
+    public int deleteByCategoryId(BigInteger id) {
+        return gameMapper.deleteByCategoryId(id);
+    }
 }
