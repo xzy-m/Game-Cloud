@@ -63,7 +63,6 @@ public class LoginController {
         servletResponse.addCookie(cookie);
 
         //servletRequest.getSession().setAttribute("sign", sign);
-
         Response<UserVo> response = new Response("1001", userVo);
         return response;
 
